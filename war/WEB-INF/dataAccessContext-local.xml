@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<!--
+  - Application context definition for Coimata's data access layer.
+  - Accessed by business layer objects defined in "applicationContext.xml"
+  - (see web.xml's "contextConfigLocation").
+  -
+  - This version of the data access layer works on a combined database,
+  - using a local DataSource with DataSourceTransactionManager. It does not
+  - need any JTA support in the container: It will run as-is in plain Tomcat.
+  -->
+<beans>
+
+  <!-- ========================= RESOURCE DEFINITIONS ========================= -->
+
+  <!-- Local Apache Commons DBCP DataSource that refers to a combined database -->
+  <!-- (see dataAccessContext-jta.xml for an alternative) -->
+  <!-- The placeholders are resolved from jdbc.properties through -->
+  <!-- the PropertyPlaceholderConfigurer in applicationContext.xml -->
+  <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+    <property name="driverClassName" value="${jdbc.driverClassName}"/>
+    <property name="url" value="${jdbc.url}"/>
+    <property name="username" value="${jdbc.username}"/>
+    <property name="password" value="${jdbc.password}"/>
+  </bean>
+
+  <!-- Transaction manager for a single JDBC DataSource -->
+  <!-- (see dataAccessContext-jta.xml for an alternative) -->
+  <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <property name="dataSource" ref="dataSource"/>
+  </bean>
+
+  <!-- SqlMap setup for iBATIS Database Layer -->
+  <bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+    <property name="configLocation" value="WEB-INF/sql-map-config.xml"/>
+    <property name="dataSource" ref="dataSource"/>
+  </bean>
+
+  <!-- ========================= DAO DEFINITIONS: IBATIS IMPLEMENTATIONS ========================= -->
+
+  <bean id="abmDao" class="org.fautapo.dao.ibatis.SqlMapAbmDao">
+    <property name="sqlMapClient" ref="sqlMapClient"/>
+  </bean>
+
+  <bean id="clientesDao" class="org.fautapo.dao.ibatis.SqlMapClientesDao">
+    <property name="sqlMapClient" ref="sqlMapClient"/>
+  </bean>
+
+  <bean id="usuariosDao" class="org.fautapo.dao.ibatis.SqlMapUsuariosDao">
+    <property name="sqlMapClient" ref="sqlMapClient"/>
+  </bean>
+  
+  <bean id="enlacesDao" class="org.fautapo.dao.ibatis.SqlMapEnlacesDao">
+    <property name="sqlMapClient" ref="sqlMapClient"/>
+  </bean>
+
+  <bean id="categoriasDao" class="org.fautapo.dao.ibatis.SqlMapCategoriasDao">
+    <property name="sqlMapClient" ref="sqlMapClient"/>
+  </bean>
+
+  <bean id="rolesDao" class="org.fautapo.dao.ibatis.SqlMapRolesDao">
+    <property name="sqlMapClient" ref="sqlMapClient"/>
+  </bean>
+
+  <bean id="herramientasDao" class="org.fautapo.dao.ibatis.SqlMapHerramientasDao">
+    <property name="sqlMapClient" ref="sqlMapClient"/>
+  </bean>
+
+  <bean id="actividadesDao" class="org.fautapo.dao.ibatis.SqlMapActividadesDao">
+    <property name="sqlMapClient" ref="sqlMapClient"/>
+  </bean>
+
+  <bean id="dominiosDao" class="org.fautapo.dao.ibatis.SqlMapDominiosDao">
+    <property name="sqlMapClient" ref="sqlMapClient"/>
+  </bean>
+
+  <bean id="camposDao" class="org.fautapo.dao.ibatis.SqlMapCamposDao">
+    <property name="sqlMapClient" ref="sqlMapClient"/>
+  </bean>
+
+  <bean id="informesDao" class="org.fautapo.dao.ibatis.SqlMapInformesDao">
+    <property name="sqlMapClient" ref="sqlMapClient"/>
+  </bean>
+
+  <bean id="gwDao" class="org.fautapo.dao.ibatis.SqlMapGwDao">
+    <property name="sqlMapClient" ref="sqlMapClient"/>
+  </bean>
+
+  <bean id="tramitesDao" class="org.fautapo.dao.ibatis.SqlMapTramitesDao">
+    <property name="sqlMapClient" ref="sqlMapClient"/>
+  </bean>
+
+  <bean id="personasDao" class="org.fautapo.dao.ibatis.SqlMapPersonasDao">
+    <property name="sqlMapClient" ref="sqlMapClient"/>
+  </bean>
+
+  <bean id="proveidosDao" class="org.fautapo.dao.ibatis.SqlMapProveidosDao">
+    <property name="sqlMapClient" ref="sqlMapClient"/>
+  </bean>
+
+  <bean id="adjuntosDao" class="org.fautapo.dao.ibatis.SqlMapAdjuntosDao">
+    <property name="sqlMapClient" ref="sqlMapClient"/>
+  </bean>
+
+  <bean id="tablerosDao" class="org.fautapo.dao.ibatis.SqlMapTablerosDao">
+    <property name="sqlMapClient" ref="sqlMapClient"/>
+  </bean>
+  
+  <bean id="hilosDao" class="org.fautapo.dao.ibatis.SqlMapHilosDao">
+    <property name="sqlMapClient" ref="sqlMapClient"/>
+  </bean>
+  
+  <bean id="dibwaykaDao" class="org.fautapo.dao.ibatis.SqlMapDibwaykaDao">
+    <property name="sqlMapClient" ref="sqlMapClient"/>
+  </bean>
+
+  <bean id="horariosDao" class="org.fautapo.dao.ibatis.SqlMapHorariosDao">
+    <property name="sqlMapClient" ref="sqlMapClient"/>
+  </bean>
+
+  <bean id="planesDao" class="org.fautapo.dao.ibatis.SqlMapPlanesDao">
+    <property name="sqlMapClient" ref="sqlMapClient"/>
+  </bean>
+
+  <bean id="programasDao" class="org.fautapo.dao.ibatis.SqlMapProgramasDao">
+    <property name="sqlMapClient" ref="sqlMapClient"/>
+  </bean>
+
+  <bean id="departamentosDao" class="org.fautapo.dao.ibatis.SqlMapDepartamentosDao">
+    <property name="sqlMapClient" ref="sqlMapClient"/>
+  </bean>
+
+  <bean id="facultadesDao" class="org.fautapo.dao.ibatis.SqlMapFacultadesDao">
+    <property name="sqlMapClient" ref="sqlMapClient"/>
+  </bean>
+
+  <bean id="universidadesDao" class="org.fautapo.dao.ibatis.SqlMapUniversidadesDao">
+    <property name="sqlMapClient" ref="sqlMapClient"/>
+  </bean>
+
+  <bean id="notasDao" class="org.fautapo.dao.ibatis.SqlMapNotasDao">
+    <property name="sqlMapClient" ref="sqlMapClient"/>
+  </bean>
+
+  <bean id="materiasDao" class="org.fautapo.dao.ibatis.SqlMapMateriasDao">
+    <property name="sqlMapClient" ref="sqlMapClient"/>
+  </bean>
+
+  <bean id="libretasDao" class="org.fautapo.dao.ibatis.SqlMapLibretasDao">
+    <property name="sqlMapClient" ref="sqlMapClient"/>
+  </bean>
+
+  <bean id="docentesDao" class="org.fautapo.dao.ibatis.SqlMapDocentesDao">
+    <property name="sqlMapClient" ref="sqlMapClient"/>
+  </bean>
+
+  <bean id="asignacionesDao" class="org.fautapo.dao.ibatis.SqlMapAsignacionesDao">
+    <property name="sqlMapClient" ref="sqlMapClient"/>
+  </bean>
+  
+  <bean id="estudiantesDao" class="org.fautapo.dao.ibatis.SqlMapEstudiantesDao">
+    <property name="sqlMapClient" ref="sqlMapClient"/>
+  </bean>
+  
+  <bean id="gruposDao" class="org.fautapo.dao.ibatis.SqlMapGruposDao">
+    <property name="sqlMapClient" ref="sqlMapClient"/>
+  </bean> 
+
+  <bean id="postulantesDao" class="org.fautapo.dao.ibatis.SqlMapPostulantesDao">
+    <property name="sqlMapClient" ref="sqlMapClient"/>
+  </bean>
+  
+  <bean id="perfilesDao" class="org.fautapo.dao.ibatis.SqlMapPerfilesDao">
+    <property name="sqlMapClient" ref="sqlMapClient"/>
+  </bean>
+  
+  <bean id="curriculumDao" class="org.fautapo.dao.ibatis.SqlMapCurriculumDao">
+    <property name="sqlMapClient" ref="sqlMapClient"/>
+  </bean>
+
+  <bean id="calendariosDao" class="org.fautapo.dao.ibatis.SqlMapCalendariosDao">
+    <property name="sqlMapClient" ref="sqlMapClient"/>
+  </bean>
+
+</beans>

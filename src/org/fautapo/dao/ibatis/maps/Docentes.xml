@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<!--
+ * @autor FAUTAPO
+ * @fec_registro 2006-04-10
+ * @ult_usuario FAUTAPO
+ * @fec_modificacion 2006-04-10
+-->
+
+<sqlMap namespace="Docentes">
+
+  <resultMap id="docente" class="org.fautapo.domain.Docentes">
+    <result property="id_docente"   column="id_docente"/>
+    <result property="id_persona"   column="id_persona"/>
+    <result property="apodo"        column="apodo"/>
+    <result property="clave"        column="clave"/>
+    <result property="recordatorio" column="recordatorio"/>
+  </resultMap>
+
+  <select id="getComprobarDocente" resultMap="docente">
+    SELECT * 
+    FROM mi_dct_comprobar_docente(#id_docente#, #clave#);
+  </select>
+
+   <statement id="setCambioPinDocente" resultClass="java.lang.Integer">
+    SELECT * FROM mi_dct_cambio_pin(#id_docente#, #clave#,#id_rol#,#ult_usuario#)
+  </statement>
+  
+  <resultMap id="buscarDocente" class="org.fautapo.domain.Docentes">
+    <result property="id_docente"        column="id_docente"/>
+    <result property="id_persona"        column="id_persona"/>
+    <result property="categoria"         column="categoria"/>
+    <result property="nombre_completo"   column="nombre_completo"/>
+    <result property="paterno"           column="paterno"/>
+    <result property="materno"           column="materno"/>
+    <result property="nombres"           column="nombres"/>
+    <result property="dip"               column="dip"/>
+  </resultMap>
+
+  <select id="getBuscarListaDocentesNombres" resultMap="buscarDocente">
+    SELECT * FROM  mi_dct_listar_docentes_nombres(#nombres#)
+    AS (id_docente integer, categoria dtexto2, id_persona integer, nombre_completo text,
+        paterno dtexto2, materno dtexto2, nombres dtexto, dip dtexto2);    
+  </select>
+
+  <select id="getBuscarListaDocentesDip" resultMap="buscarDocente">
+    SELECT * FROM  mi_dct_listar_docentes_dip(#dip#)
+    AS (id_docente integer, categoria dtexto2, id_persona integer, nombre_completo text, 
+        paterno dtexto2, materno dtexto2, nombres dtexto, dip dtexto2);        
+  </select>
+  
+  <resultMap id="buscarDocente2" class="org.fautapo.domain.Docentes">
+    <result property="id_docente"        column="id_docente"/>
+    <result property="id_persona"        column="id_persona"/>
+    <result property="categoria"         column="categoria"/>
+    <result property="nombre_completo"   column="nombre_completo"/>
+    <result property="paterno"           column="paterno"/>
+    <result property="materno"           column="materno"/>
+    <result property="nombres"           column="nombres"/>
+    <result property="dip"               column="dip"/>
+    <result property="apodo"             column="apodo"/>
+    <result property="clave"             column="clave"/>
+  </resultMap>
+
+  <select id="getBuscarDocente" resultMap="buscarDocente2">
+    SELECT * FROM mi_dct_buscar_docente(#id_docente#)
+    AS (id_docente integer, id_persona dentero, apodo dtexto, clave dtexto2, categoria dtexto2, nombre_completo varchar, 
+        paterno dtexto2, materno dtexto2, nombres dtexto, dip dtexto2);
+  </select>
+   
+  <!--Para controlar el cambio de pin segun la carrera -->
+  <select id="getBuscarDocentexdepartamento" resultMap="buscarDocente2">
+    SELECT * FROM mi_dct_buscar_docentexdepartamento(#id_docente#,#id_departamento#)
+    AS (id_docente integer, id_persona dentero, apodo dtexto, clave dtexto2, categoria dtexto2, nombre_completo varchar, 
+        paterno dtexto2, materno dtexto2, nombres dtexto, dip dtexto2);
+  </select>
+  <!-- FIN Para controlar el cambio de pin segun la carrera -->
+  <select id="getListarDocentesTodos" resultMap="buscarDocente2">
+    SELECT * FROM mi_listar_docentes_nombres_todos() 
+      AS (id_docente integer, id_persona dentero, apodo dtexto, clave dtexto2, categoria dtexto2, paterno dtexto2, materno dtexto2, nombres dtexto, dip dtexto2, nombre_completo text);
+  </select>  
+  
+  <resultMap id="tiposDocentes" class="org.fautapo.domain.Docentes">
+    <result property="id_tipo_docente"   column="id_tipo_docente"/>
+    <result property="tipo_docente"   column="tipo_docente"/>
+  </resultMap>
+
+  <select id="getListarTiposDocentes" resultMap="tiposDocentes">
+    SELECT * from mi_listar_tipos_docentes();
+  </select>
+  
+ <resultMap id="tiposAsignaciones" class="org.fautapo.domain.Docentes">
+    <result property="id_tipo_asignacion"   column="id_tipo_asignacion"/>
+    <result property="tipo_asignacion"      column="tipo_asignacion"/>
+  </resultMap>
+
+  <select id="getListarTiposAsignaciones" resultMap="tiposAsignaciones">
+    SELECT * from mi_listar_tipos_asignaciones();
+  </select>
+  
+ <resultMap id="tiposFunciones" class="org.fautapo.domain.Docentes">
+    <result property="id_funcion"   column="id_funcion"/>
+    <result property="descripcion"      column="descripcion"/>
+  </resultMap>
+   <select id="getListarTiposFunciones" resultMap="tiposFunciones">
+    SELECT * from mi_listar_tipos_funciones();
+  </select>
+  
+  <!--INICIO Admin.Docente-->
+  <statement id="setRegistrarDocente" resultClass="java.lang.Integer">
+   SELECT * FROM mi_dct_registrar_docente(#id_docente#, #id_persona#, #apodo#, #clave#, #categoria#, #id_rol#, #ult_usuario#);
+  </statement>
+  
+  <statement id="setEliminarDocente" resultClass="java.lang.Integer">
+    SELECT * FROM mi_dct_eliminar_docente(#id_docente#);
+  </statement>
+  <!--FIN Admin.Docente-->
+  <!--Inicio Cambio Pin Docente General--> 
+  <statement id="setModificarApodoClaveDocente" resultClass="java.lang.Integer">
+    SELECT * FROM mi_dct_modificar_apodo_clave_docente(#id_docente#, #apodo#, #clave#, #id_rol#, #ult_usuario#);
+  </statement>
+  <!--Fin Cambio Pin Docente General--> 
+
+
+<!-- INICIO - METODOS ADICIONADOS POR LA UAP -->
+  <resultMap id="listarDocentesPorDpto" class="org.fautapo.domain.Docentes">
+    <result property="nombre_completo" column="docente"/>
+    <result property="materia" column="materia"/>
+    <result property="id_grupo" column="id_grupo"/>
+  </resultMap>
+
+  <select id="getListarDocentesPorDpto" resultMap="listarDocentesPorDpto">
+    select docente,materia,id_grupo from dct_por_dpto(#id_departamento#,#gestion#,#periodo#)
+    as (docente dtexto, materia dtexto, id_grupo dentero);
+  </select>
+
+  <!--Asignacion Auxiliares de Docencia-->
+  <select id="getListarAuxiliaresTodos" resultMap="buscarDocente2">
+    SELECT * FROM mi_listar_auxiliares_nombres_todos() 
+      AS (id_docente dentero, id_persona dentero, apodo dtexto2, clave dtexto2, categoria dtexto2, paterno dtexto2, materno dtexto2, nombres dtexto, dip dtexto2, nombre_completo text);
+  </select>
+  
+  <select id="getBuscarAuxiliar" resultMap="buscarDocente2">
+    SELECT * FROM mi_dct_buscar_auxiliar(#id_docente#)
+    AS (id_docente dentero, id_persona dentero, apodo dtexto2, clave dtexto2, categoria dtexto2, nombre_completo dtexto, 
+        paterno dtexto2, materno dtexto2, nombres dtexto, dip dtexto2);
+  </select>  
+<!-- FIN - METODOS ADICIONADOS POR LA UAP -->
+  
+</sqlMap>

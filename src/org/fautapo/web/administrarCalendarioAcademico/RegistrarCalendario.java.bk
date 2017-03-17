@@ -1,0 +1,99 @@
+package org.fautapo.web.administrarCalendarioAcademico;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.fautapo.domain.Clientes;
+import org.fautapo.domain.Universidades;
+import org.fautapo.domain.Facultades;
+import org.fautapo.domain.Programas;
+import org.fautapo.domain.Planes;
+import org.fautapo.domain.Materias;
+
+import org.fautapo.domain.logic.MiFacade;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.Controller;
+
+/**
+ * @autor FAUTAPO
+ * @fec_registro 2005-11-01
+ * @ult_usuario FAUTAPO
+ * @fec_modificacion 2006-07-17
+ */
+
+public class RegistrarCalendario implements Controller {
+
+  private MiFacade mi;
+  public void setMi(MiFacade mi) { this.mi = mi; }
+
+  public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    Map modelo = new HashMap();
+    
+    Planes datosPlan = new Planes();
+    Clientes cliente = (Clientes) request.getSession().getAttribute("__sess_cliente");
+    if (cliente==null) return new ModelAndView("Aviso", "mensaje", "Su sesión ha terminado. Vuelva a la página inicial e ingrese de nuevo.");
+
+    int iId_departamento = cliente.getInt(request, "id_departamento");
+    int iId_materia = cliente.getInt(request, "id_materia");
+    int iId_tipo_materia = cliente.getInt(request, "id_tipo_materia");
+    int iHrs_teoricas = cliente.getInt(request, "hrs_teoricas");
+    int iHrs_practicas = cliente.getInt(request, "hrs_practicas");
+    int iHrs_periodo = cliente.getInt(request, "hrs_periodo");
+    float fCreditos = cliente.getFloat(request, "creditos");
+    String sSigla = cliente.getString(request, "sigla");
+    String sMateria = cliente.getString(request, "materia");
+    String sAccion = cliente.getString(request, "accion");
+    modelo.put("id_departamento", Integer.toString(iId_departamento));
+
+    Materias datosMateria = new Materias();
+    datosMateria.setId_materia(iId_materia);
+    datosMateria.setId_rol(cliente.getId_rol());
+    datosMateria.setUlt_usuario(cliente.getId_usuario());
+
+    //Eliminamos la materia
+    if (("Eliminar").equals(sAccion)) {
+      int iResultado  = this.mi.setEliminarMateria(datosMateria);
+      if (iResultado == 2) {
+        modelo.put("mensaje", "No se puede eliminar la materia ya que tiene asociado un plan");
+        return new ModelAndView("Error", modelo);
+      }
+    }
+
+    //Registramos/Actualizamos la materia
+    if ("Adicionar".equals(sAccion)) {
+      datosMateria.setId_materia(-1);
+      datosMateria.setId_tipo_materia(iId_tipo_materia);
+      datosMateria.setId_departamento(iId_departamento);
+      datosMateria.setMateria(sMateria);
+      datosMateria.setSigla(sSigla);
+      datosMateria.setHrs_teoricas(iHrs_teoricas);
+      datosMateria.setHrs_practicas(iHrs_practicas);
+      datosMateria.setHrs_periodo(iHrs_periodo);
+//      datosMateria.setCreditos(Float.valueOf(sCreditos).floatValue());
+      datosMateria.setCreditos(fCreditos);
+      int iResultado  = this.mi.setRegistrarMateria(datosMateria);
+    }
+    if ("Modificar".equals(sAccion)) {
+      datosMateria.setId_tipo_materia(iId_tipo_materia);
+      datosMateria.setId_departamento(iId_departamento);
+      datosMateria.setMateria(sMateria);
+      datosMateria.setSigla(sSigla);
+      datosMateria.setHrs_teoricas(iHrs_teoricas);
+      datosMateria.setHrs_practicas(iHrs_practicas);
+      datosMateria.setHrs_periodo(iHrs_periodo);
+//      datosMateria.setCreditos(Float.valueOf(sCreditos).floatValue());
+      datosMateria.setCreditos(fCreditos);
+      int iResultado  = this.mi.setRegistrarMateria(datosMateria);
+    }
+
+    //Listamos las materias del departamento
+    datosMateria.setId_departamento(iId_departamento);
+    List lMaterias = this.mi.getListarMateriasPorDepartamento(datosMateria);
+    modelo.put("lMaterias", lMaterias);
+
+    return new ModelAndView("administrarCalendarioAcademico/ListarCalendario", modelo);
+  }
+}

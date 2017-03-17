@@ -1,0 +1,328 @@
+package org.fautapo.web.definirEvaluacion;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Date;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.support.PagedListHolder;
+import org.fautapo.domain.Clientes;
+import org.fautapo.domain.Usuarios;
+import org.fautapo.domain.Materias;
+import org.fautapo.domain.Libretas;
+import org.fautapo.domain.Asignaciones;
+import org.fautapo.domain.Programas;
+import org.fautapo.domain.logic.MiFacade;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.Controller;
+import org.springframework.web.util.WebUtils;
+
+/**
+ * @autor FAUTAPO
+ * @fec_registro 2006-04-08
+ * @ult_usuario FAUTAPO
+ * @fec_modificacion 2006-04-08
+ */
+
+public class ConfirmarDefinicion implements Controller {
+        
+  private MiFacade mi;
+ 
+  public void setMi(MiFacade mi) {
+    this.mi = mi;
+  }
+
+  public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    Map modelo = new HashMap();
+    
+    Clientes cliente = (Clientes) request.getSession().getAttribute("__sess_cliente");
+    if(cliente==null) return new ModelAndView("Aviso", "mensaje", "Su sesion ha terminado. Vuelva a la pagina inicial e ingrese de nuevo.");
+    String _nombres = cliente.getNombres();
+    int _gestion = cliente.getGestion();
+    int _periodo = cliente.getPeriodo();
+    int _id_usuario = cliente.getId_usuario();
+    int _id_rol = cliente.getId_rol();
+    
+    int iid_docente = _id_usuario;
+    int padre = 0;
+    
+    String sGestion            = request.getParameter("gestion");
+    String sPeriodo            = request.getParameter("periodo");
+    String sNombres            = request.getParameter("nombres");
+    String id_materia         = request.getParameter("id_materia");
+    String sMateria            = request.getParameter("materia");
+    String id_fase            = request.getParameter("id_fase");
+    String id_programa        = request.getParameter("id_programa");
+    String id_tipo_evaluacion = request.getParameter("id_tipo_evaluacion");
+    String grupo              = request.getParameter("grupo");  
+    String id_grupo           = request.getParameter("id_grupo");
+    String tipo_evaluacion    = request.getParameter("tipo_evaluacion");
+    String id_modelo_ahorro   = request.getParameter("id_modelo_ahorro");
+    String sId_departamento   = request.getParameter("id_departamento");    
+    
+    modelo.put("gestion", sGestion);
+    modelo.put("materia", sMateria);
+    modelo.put("periodo", sPeriodo);
+    modelo.put("nombres", sNombres);
+    modelo.put("id_docente", Integer.toString(iid_docente));
+    modelo.put("id_rol", Integer.toString(_id_rol));
+    modelo.put("grupo", grupo);
+    modelo.put("id_grupo", id_grupo);    
+    modelo.put("id_fase", id_fase);
+    modelo.put("id_tipo_evaluacion", id_tipo_evaluacion);
+    modelo.put("tipo_evaluacion", tipo_evaluacion);
+    modelo.put("id_modelo_ahorro", id_modelo_ahorro);
+    modelo.put("id_departamento", sId_departamento);    
+    
+    //Convertimos a entero los datos 
+    int xgestion = Integer.parseInt(sGestion);
+    int xperiodo = Integer.parseInt(sPeriodo);
+    int xid_materia = Integer.parseInt(id_materia);
+    int xid_fase = Integer.parseInt(id_fase);    
+    int xid_tipo_evaluacion = Integer.parseInt(id_tipo_evaluacion);    
+    int xid_grupo = Integer.parseInt(id_grupo);    
+    int xid_modelo_ahorro = Integer.parseInt(id_modelo_ahorro);
+
+    //Sacamos el programa 
+    Programas buscar_programa = new Programas();
+    buscar_programa.setId_programa(Integer.parseInt(id_programa));
+    Programas datosPrograma = this.mi.getPrgBuscarPrograma(buscar_programa);
+    modelo.put("id_programa", id_programa);
+    modelo.put("programa", datosPrograma.getPrograma());
+    
+    //Sacamos datos de la materia
+    Materias buscar_mat = new Materias();
+    buscar_mat.setId_materia(xid_materia);
+    Materias buscar_materia = this.mi.getMtrBuscarMateria(buscar_mat);
+    modelo.put("sigla", buscar_materia.getSigla());
+    modelo.put("id_materia", id_materia);
+    
+    //Buscar Asignacion Docente
+    Asignaciones asignar_docente = new Asignaciones();
+    asignar_docente.setId_docente(iid_docente);
+    asignar_docente.setId_materia(Integer.parseInt(id_materia));
+    asignar_docente.setGestion(Integer.parseInt(sGestion));
+    asignar_docente.setPeriodo(Integer.parseInt(sPeriodo));
+    asignar_docente.setId_modelo_ahorro(xid_modelo_ahorro);    
+    asignar_docente.setId_programa(Integer.parseInt(id_programa));    
+    asignar_docente.setId_grupo(xid_grupo);    
+    
+    System.out.println("EL ASIGNAR IDDOCENTE --> "+ Integer.toString(asignar_docente.getId_docente()));
+    System.out.println("EL ASIGNAR IDMATERIA --> "+ Integer.toString(asignar_docente.getId_materia()));
+    System.out.println("EL ASIGNAR GESTION --> "+ Integer.toString(asignar_docente.getGestion()));
+    System.out.println("EL ASIGNAR PERIODO --> "+ Integer.toString(asignar_docente.getPeriodo()));
+    
+    Asignaciones asig_doc  = this.mi.getDctBuscarAsignacionDocenteMateria(asignar_docente);
+    int id_tipo_docente = asig_doc.getId_tipo_docente();
+    int id_departamento = asig_doc.getId_departamento();
+    int id_modelo_fase  = asig_doc.getId_modelo_fase();
+    int id_modelo_fase_auxiliar = id_modelo_fase;
+    
+    System.out.println("EL TIPODOCENTE ENTRADA --> "+ Integer.toString(id_tipo_docente));
+    System.out.println("EL IDDEPARTAMENTO ENTRADA --> "+ Integer.toString(id_departamento));
+    System.out.println("EL ID MODELO FASE ENTRADA --> "+ Integer.toString(id_modelo_fase));
+    System.out.println("EL ID MODELO FASE AUXILIAR ENTRADA --> "+ Integer.toString(id_modelo_fase_auxiliar));
+    
+    modelo.put("id_modelo_fase", Integer.toString(id_modelo_fase));
+
+    if(Integer.parseInt(id_modelo_ahorro) < 0){
+      modelo.put("materia", buscar_materia.getMateria());
+    }
+
+    Asignaciones datos = new Asignaciones();
+    if(Integer.parseInt(id_modelo_ahorro) > 0){
+      // datos.setId_sec0(Integer.parseInt(id_sec0));
+      datos.setId_modelo_ahorro(Integer.parseInt(id_modelo_ahorro));
+      List materiaAhorro = this.mi.getMtrListarMateriaAhorro(datos);
+      Asignaciones aux = new Asignaciones();
+      for (int i = 0; i < materiaAhorro.size(); i++){
+        aux = (Asignaciones)materiaAhorro.get(i);
+        modelo.put("materia", aux.getDescripcion());
+      }
+    }
+
+    //Sacamos la fase actual
+    Libretas buscar_fase = new Libretas();
+    buscar_fase.setId_fase(xid_fase);
+    buscar_fase.setId_tipo_evaluacion(xid_tipo_evaluacion);
+    buscar_fase.setId_departamento(Integer.parseInt(sId_departamento));
+    buscar_fase.setGestion(xgestion);
+    buscar_fase.setPeriodo(xperiodo);
+    Libretas fase = this.mi.getLbrBuscarFase(buscar_fase);
+    modelo.put("fase", fase.getFase());
+    
+    int suma_pond    = 0;
+    int id_tipo_nota = 0;
+    int cantidad     = 0;
+    int ponderacion  = 0;
+    
+    //Verificamos si el porcentaje suma 100%
+    Enumeration e = request.getParameterNames();
+    while(e.hasMoreElements()){
+      String nombre = (String)e.nextElement();      //Recuperamos el nombre del objeto (Ej. de la caja de texto)
+      String valor = request.getParameter(nombre);  //Recuperamos el valor del objecto (Ej. de la caja de texto)
+      String dato = nombre.substring(0,4); 
+
+      if ("cant".equals(dato)){
+        String elementos[];
+        elementos           = new String[2];
+        elementos           = nombre.split(":");
+        id_tipo_nota        = Integer.parseInt(elementos[1]);
+        String xponderacion = request.getParameter("ponderacion:"+elementos[1]);
+	if (("".equals(valor)) || ("".equals(xponderacion))){
+	  modelo.put("auxiliar", "5");
+	  //modelo.put("mensaje","Debe ingresar el numero de item y su respectivo porcentaje");
+          return new ModelAndView("definirEvaluacion/Aviso", modelo);
+	} else{
+	  ponderacion = Integer.parseInt(xponderacion);
+	  cantidad    = Integer.parseInt(valor);
+	}
+	if((cantidad ==0)&&(ponderacion > 0)){
+	  modelo.put("mensaje","Debe ingresar la cantidad de item para la ponderacion asignada");
+          return new ModelAndView("definirEvaluacion/Aviso", modelo);
+	}
+	
+	if (cantidad !=0){
+	  suma_pond = suma_pond + ponderacion;
+	}
+      }
+    }
+    
+    if (suma_pond == 100){
+      //Verificamos si el porcentaje suma 100%
+      Enumeration enu = request.getParameterNames();
+      while (enu.hasMoreElements()) {
+        String nombre = (String)enu.nextElement();  //Recuperamos el nombre del objeto (Ej. de la caja de texto)
+        String valor = request.getParameter(nombre);  //Recuperamos el valor del objecto (Ej. de la caja de texto)
+        String dato = nombre.substring(0,4); 
+
+        if ("cant".equals(dato)){
+          String elementos1[];
+          elementos1 = new String[2];
+          elementos1 = nombre.split(":");
+          id_tipo_nota = Integer.parseInt(elementos1[1]);
+          String xponderacion = request.getParameter("ponderacion:"+elementos1[1]);
+          ponderacion = Integer.parseInt(xponderacion);
+  	  cantidad = Integer.parseInt(valor);
+        }
+
+        //Verificamos si ya existe una nota de cada estudiante
+	Libretas buscar_tipo_eva = new Libretas();
+	buscar_tipo_eva.setGestion(xgestion);
+	buscar_tipo_eva.setPeriodo(xperiodo);
+	buscar_tipo_eva.setId_programa(Integer.parseInt(id_programa));
+	buscar_tipo_eva.setId_materia(xid_materia);
+ 	buscar_tipo_eva.setId_grupo(xid_grupo);
+	buscar_tipo_eva.setId_tipo_nota(id_tipo_nota);
+        buscar_tipo_eva.setId_tipo_evaluacion(xid_tipo_evaluacion);
+	buscar_tipo_eva.setId_fase(xid_fase);
+	buscar_tipo_eva.setId_modelo_ahorro(Integer.parseInt(id_modelo_ahorro));	 
+	List existe = this.mi.getLbrListarTiposNotasDefinidas(buscar_tipo_eva);
+        
+	if (existe.size() > 0) {
+	  System.out.println("modifica");
+	  //buscamos el id_evaluacion
+	  Libretas buscar_eva = new Libretas();
+	  buscar_eva.setGestion(xgestion);
+	  buscar_eva.setPeriodo(xperiodo);
+	  buscar_eva.setId_programa(Integer.parseInt(id_programa));
+	  buscar_eva.setId_materia(xid_materia);
+ 	  buscar_eva.setId_grupo(xid_grupo);
+	  buscar_eva.setId_tipo_nota(id_tipo_nota);
+          buscar_eva.setId_tipo_evaluacion(xid_tipo_evaluacion);
+	  buscar_eva.setId_fase(xid_fase);
+	  buscar_eva.setId_modelo_ahorro(Integer.parseInt(id_modelo_ahorro));	 
+          Libretas buscar_evaluacion = this.mi.getLbrBuscarTipoNotaDefinida(buscar_eva);
+	  int id_evaluacion_m = buscar_evaluacion.getId_evaluacion();
+	  
+          //En caso de que existe actualizamos la definicion de evaluacion
+	  Libretas modifica_eva = new Libretas();
+          modifica_eva.setId_materia(xid_materia);
+ 	  modifica_eva.setId_grupo(xid_grupo);
+          modifica_eva.setId_modelo_ahorro(Integer.parseInt(id_modelo_ahorro));	 
+	  modifica_eva.setId_tipo_nota(id_tipo_nota);
+	  modifica_eva.setId_modelo_fase(id_modelo_fase);
+	  modifica_eva.setId_fase(xid_fase);
+	  modifica_eva.setId_departamento(id_departamento);
+	  modifica_eva.setId_tipo_evaluacion(xid_tipo_evaluacion);
+	  modifica_eva.setId_tipo_docente(id_tipo_docente);
+	  modifica_eva.setGestion(xgestion);
+	  modifica_eva.setPeriodo(xperiodo);
+	  modifica_eva.setCantidad(cantidad);
+	  modifica_eva.setPonderacion(ponderacion);
+	  modifica_eva.setPadre(padre);
+	  modifica_eva.setId_rol(cliente.getId_rol());	   //CRCB
+	  modifica_eva.setUlt_usuario(cliente.getId_usuario());
+	  modifica_eva.setId_evaluacion(id_evaluacion_m);	  
+          this.mi.setGrpModificarEvaluacion(modifica_eva);
+	}
+	else{
+	  //En caso de no existir la definicion entonces la insertamos
+	  int id_modelo_fase_auxb =  asig_doc.getId_modelo_fase();
+    
+    System.out.println("EL ID MODELO FASE DENTRO ENTRNADO --> "+ Integer.toString(id_modelo_fase_auxb));
+    System.out.println("EL ID MODELO FASE DENTRO ENTRNADO --> "+ Integer.toString(asig_doc.getId_modelo_fase()));
+
+	  Libretas nueva_eva = new Libretas();
+          nueva_eva.setId_materia(xid_materia);
+	  System.out.println("EL ID MATERIA EVAL --> "+nueva_eva.getId_materia());
+ 	  nueva_eva.setId_grupo(xid_grupo);
+	  System.out.println("EL ID GRUPO EVAL --> "+nueva_eva.getId_grupo());
+          nueva_eva.setId_modelo_ahorro(Integer.parseInt(id_modelo_ahorro));	 
+	  System.out.println("EL ID modelo_ahorro() EVAL --> "+nueva_eva.getId_modelo_ahorro());
+	  nueva_eva.setId_tipo_nota(id_tipo_nota);
+	  System.out.println("EL ID tipo_nota EVAL --> "+nueva_eva.getId_tipo_nota());
+	  nueva_eva.setId_modelo_fase(id_modelo_fase);
+	  System.out.println("EL ID modelo_fase EVAL --> "+nueva_eva.getId_modelo_fase());
+	  nueva_eva.setId_fase(xid_fase);
+	  System.out.println("EL ID FASE EVAL --> "+nueva_eva.getId_fase());
+	  nueva_eva.setId_departamento(id_departamento);
+	  System.out.println("EL ID departamento EVAL --> "+nueva_eva.getId_departamento());
+	  nueva_eva.setId_tipo_evaluacion(xid_tipo_evaluacion);
+	  System.out.println("EL ID tipo_evaluacion EVAL --> "+nueva_eva.getId_tipo_evaluacion());
+	  nueva_eva.setId_tipo_docente(id_tipo_docente);
+	  System.out.println("EL ID tipo_docente EVAL --> "+nueva_eva.getId_tipo_docente());
+	  nueva_eva.setGestion(xgestion);
+	  System.out.println("EL gestion EVAL --> "+nueva_eva.getGestion());
+	  nueva_eva.setPeriodo(xperiodo);
+	  System.out.println("EL Periodo EVAL --> "+nueva_eva.getPeriodo());
+	  nueva_eva.setCantidad(cantidad);
+	  System.out.println("EL Cantidad EVAL --> "+nueva_eva.getCantidad());
+	  nueva_eva.setPonderacion(ponderacion);
+	  System.out.println("EL Ponderacion EVAL --> "+nueva_eva.getPonderacion());
+	  nueva_eva.setPadre(padre);
+	  System.out.println("EL PAdre EVAL --> "+nueva_eva.getPadre());
+	  nueva_eva.setId_rol(cliente.getId_rol());  //CRCB
+	  System.out.println("EL id_Rol EVAL --> "+nueva_eva.getId_rol());
+	  nueva_eva.setUlt_usuario(cliente.getId_usuario());
+	  System.out.println("EL Ult_usuario EVAL --> "+nueva_eva.getUlt_usuario());
+	 
+          this.mi.setGrpInsertarEvaluacion(nueva_eva);
+	}
+      }
+      //Sacamos la definicion actual de la evaluacion
+      Libretas buscar_definicion = new Libretas();
+      buscar_definicion.setGestion(xgestion);
+      buscar_definicion.setPeriodo(xperiodo);
+      buscar_definicion.setId_programa(Integer.parseInt(id_programa));
+      buscar_definicion.setId_materia(xid_materia);
+      buscar_definicion.setId_grupo(xid_grupo);
+      buscar_definicion.setId_tipo_evaluacion(xid_tipo_evaluacion);
+      buscar_definicion.setId_fase(xid_fase);
+      buscar_definicion.setId_modelo_ahorro(Integer.parseInt(id_modelo_ahorro));	 
+      buscar_definicion.setId_departamento(Integer.parseInt(sId_departamento));	 
+      List listaTiposNotas = this.mi.getLbrListarTiposNotas(buscar_definicion);
+      modelo.put("listaTiposNotas",listaTiposNotas);
+    } else {
+      modelo.put("mensaje", "La suma de los porcentajes debe ser igual a 100");
+      return new ModelAndView("definirEvaluacion/DefinirEvaluacion", modelo);
+    }
+    
+    return new ModelAndView("definirEvaluacion/RegistrarDefinicion", modelo);
+  }
+}

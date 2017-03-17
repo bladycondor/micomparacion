@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<!--
+ * @autor FAUTAPO
+ * @fec_registro 2005-11-01
+ * @ult_usuario FAUTAPO
+ * @fec_modificacion 2005-11-01
+-->
+
+<sqlMap namespace="Universidad">
+
+  <resultMap id="universidad" class="org.fautapo.domain.Universidades">
+    <result property="id_universidad" column="id_universidad"/>
+    <result property="universidad"    column="universidad"/>
+  </resultMap>
+
+  <select id="getUnvBuscarUniversidad" resultMap="universidad">
+    SELECT *
+    FROM mi_unv_buscar_universidad(#id_universidad#);
+  </select>
+  
+  <select id="getUnvListarUniversidades" resultMap="universidad">
+    SELECT * FROM mi_listar_universidades();
+  </select>
+
+</sqlMap>
