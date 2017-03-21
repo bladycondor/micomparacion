@@ -1373,7 +1373,16 @@ Estudiantes getEstBuscarEstudiantePrsPreSede(Estudiantes estudiante);
   List getListarCursoPsicoOtros(Personas persona);
   List getListarCursoSemioEst(Estudiantes estudiante);  
   List getlistarMiembrosT(Estudiantes estudiante);  
- 
+  //CODE
+
+ List  getListarCertGen(Estudiantes estudiante); 
+ List  getListarNotasCertificados(Estudiantes estudiante);
+ int setRegistrarCerGen(Estudiantes estudiante); 
+ int getBuscarMaxCertSede(Estudiantes estudiante);
+ int setRegistrarCerGenNotas(Estudiantes estudiante);
+ void setEliminarCertificadoNotas(Estudiantes estudiante); 
+ int getbuscarnrotransacciones(Estudiantes estudiante);
+ int getcert_buscar_nro_certificado_gestioncode(Estudiantes estudiante);
 //FIN - METODOS ADICIONADOS POR LA UAP
 
 }

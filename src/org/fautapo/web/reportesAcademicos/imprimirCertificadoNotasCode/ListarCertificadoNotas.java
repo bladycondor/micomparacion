@@ -1,4 +1,4 @@
-package org.fautapo.web.reportesAcademicos.imprimirCertificadoNotas;
+package org.fautapo.web.reportesAcademicos.imprimirCertificadoNotasCode;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -42,57 +42,60 @@ public class ListarCertificadoNotas implements Controller {
      
     Clientes cliente = (Clientes) request.getSession().getAttribute("__sess_cliente");
     if(cliente==null) return new ModelAndView("Aviso", "mensaje", "Su sesion ha terminado. Vuelva a la pagina inicial e ingrese de nuevo.");
-    Estudiantes datosEstudiante; List lNotas = new ArrayList();
+    Estudiantes datosEstudiante; 
+	List lNotas = new ArrayList();
     
     //Recuperando variables del jsp
-    String sId_estudiante = request.getParameter("id_estudiante");
-    String sCi = request.getParameter("ci");
-    String sNombres = request.getParameter("nombres");
-    String sGestion = request.getParameter("gestion");
+	String sGestion = request.getParameter("gestion");
     String sPeriodo = request.getParameter("periodo");
-    String sId_programa = request.getParameter("id_programa");
-    String sTodas = request.getParameter("todas");
-    
-	String sNroCertificado = request.getParameter("nrocertificado");
-	String sObservacion = request.getParameter("observacion");
-	
+	String sId_programa = request.getParameter("id_programa");
+    String sId_estudiante = request.getParameter("id_estudiante");
+    String sNombres = request.getParameter("nombres");
+	String sNro_recibo = cliente.getString(request, "nrocertificado");
+	String sTodas = request.getParameter("todas");
     
     //Votamos los datos
     modelo.put("gestion", sGestion);
     modelo.put("periodo", sPeriodo);
     modelo.put("id_programa", sId_programa);
-    modelo.put("todas", sTodas);
-    modelo.put("cliente",cliente);
-    modelo.put("acceso", (Accesos) request.getSession().getAttribute("__sess_acceso"));
- 
-    modelo.put("nrocertificado",sNroCertificado);
-	modelo.put("observacion",sObservacion);
-	
- 
-    //Buscamos el programa
+    modelo.put("id_estudiante",sId_estudiante);
+	modelo.put("nombres",sNombres);
+    modelo.put("nrocertificado",sNro_recibo);
+	modelo.put("todas",sTodas);
+	modelo.put("acceso", (Accesos) request.getSession().getAttribute("__sess_acceso"));
+	 	 
+	System.out.println("1-> "+sGestion);
+	System.out.println("2-> "+sPeriodo);
+	System.out.println("3-> "+sId_programa);
+    System.out.println("4-> "+sId_estudiante);
+	System.out.println("4-> "+sNombres);
+	System.out.println("5-> "+sNro_recibo);
+    System.out.println("6-> "+sTodas); 	
+    
+     //Buscamos el programa
     Programas datosPrograma = new Programas();
     datosPrograma.setId_programa(Integer.parseInt(sId_programa));
     datosPrograma = this.mi.getPrgBuscarPrograma(datosPrograma);
     modelo.put("datosPrograma", datosPrograma);
     
-    if ("".equals(sId_estudiante) && ("".equals(sNombres)) && ("".equals(sCi))){
-      return new ModelAndView("reportesAcademicos/imprimirCertificadoNotas/BuscarEstudiantes", modelo);
-    }
+  // if ("".equals(sId_estudiante) ){
+    //  return new ModelAndView("reportesAcademicos/imprimirCertificadoNotasCode/", modelo);
+    //}
     
-    if (!"".equals(sId_estudiante)) {
+   // if (!"".equals(sId_estudiante)) {
       //Sacando los datos del estudiante    
       datosEstudiante = new Estudiantes();
-      try {
+      //try {
        datosEstudiante.setId_estudiante(Integer.parseInt(sId_estudiante));
-      } catch(Exception e) {
-        return new ModelAndView("Error", "mensaje", "El R.U. no es valido, introduzca un numero");
-      }
+     // } catch(Exception e) {
+      //  return new ModelAndView("Error", "mensaje", "El R.U. no es valido, introduzca un numero");
+     // }
       datosEstudiante.setId_programa(Integer.parseInt(sId_programa));
       datosEstudiante = this.mi.getEstBuscarEstudiantePrograma(datosEstudiante);
       modelo.put("datosEstudiante", datosEstudiante);
-      if (datosEstudiante == null) {
-        return new ModelAndView("reportesAcademicos/imprimirCertificadoNotas/Aviso","mensaje","El estudiante con R.U. : "+ sId_estudiante + "no esta registrado en el Programa : "+ datosPrograma.getPrograma() + ". Verifique.");
-      }
+     // if (datosEstudiante == null) {
+       // return new ModelAndView("reportesAcademicos/imprimirCertificadoNotasCode/Aviso","mensaje","El estudiante con R.U. : "+ sId_estudiante + "no esta registrado en el Programa : "+ datosPrograma.getPrograma() + ". Verifique.");
+     // }
       datosEstudiante.setGestion(Integer.parseInt(sGestion));
       datosEstudiante.setPeriodo(Integer.parseInt(sPeriodo));
 	  
@@ -100,17 +103,16 @@ public class ListarCertificadoNotas implements Controller {
       //Sacamos los datos del certificado
       
 	  if ("Si".equals(sTodas)) {
-        lNotas = this.mi.getListarCertificadoNotasTodas2(datosEstudiante);
+        lNotas = this.mi.getListarCertificadoNotasTodas(datosEstudiante);
       }
       if ("No".equals(sTodas)) {
-        lNotas = this.mi.getListarCertificadoNotasAprobadas2(datosEstudiante);
+        lNotas = this.mi.getListarCertificadoNotasAprobadas(datosEstudiante);
       }
 	  
       List lMateriasNotas = new ArrayList();
       for (int i=0; i<lNotas.size();i++) {
         Libretas datosLibreta = (Libretas) lNotas.get(i);
         Literales literal = new Literales();
-	datosLibreta.setLiteral(literal.convertNumber(datosLibreta.getNota()));
 	    datosLibreta.setLiteral(literal.convertNumber(datosLibreta.getNota()));
         lMateriasNotas.add(i, datosLibreta);
       }
@@ -156,26 +158,10 @@ public class ListarCertificadoNotas implements Controller {
       formatoFecha.setCodigo("dibrap");
       modelo.put("formatoFecha", this.mi.getDibBuscarParametro(formatoFecha));
 
-
-      return new ModelAndView("reportesAcademicos/imprimirCertificadoNotas/ListarCertificadoNotas", modelo);
-    }
-    
-    //Si la busqueda es por CI
-    if (!"".equals(sCi)) {
-      datosEstudiante = new Estudiantes();
-      datosEstudiante.setDip(sCi);
-      datosEstudiante.setId_programa(Integer.parseInt(sId_programa));
-      List lEstudiantes = this.mi.getEstListarEstudiantesDip(datosEstudiante);
-      modelo.put("lEstudiantes", lEstudiantes);
-    }
-    //Si la busqueda es por nombre
-    if (!"".equals(sNombres)) {
-      datosEstudiante = new Estudiantes();
-      datosEstudiante.setNombres(sNombres);
-      datosEstudiante.setId_programa(Integer.parseInt(sId_programa));
-      List lEstudiantes = this.mi.getEstListarEstudiantesNombres(datosEstudiante);
-      modelo.put("lEstudiantes", lEstudiantes);
-    }
-    return new ModelAndView("reportesAcademicos/imprimirCertificadoNotas/ListarDatosEstudiantes", modelo);
+     
+     // return new ModelAndView("reportesAcademicos/imprimirCertificadoNotasCode/ListarCertificadoNotas", modelo);
+    //}
+   
+    return new ModelAndView("reportesAcademicos/imprimirCertificadoNotasCode/ListarCertificadoNotas", modelo);
   }
 }

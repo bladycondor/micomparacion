@@ -478,7 +478,40 @@ public Estudiantes getEstBuscarEstudiantePrsSede(Estudiantes estudiante) throws 
   public List  getlistarMiembrosT(Estudiantes estudiante) throws DataAccessException {
     return getSqlMapClientTemplate().queryForList("getlistarMiembrosT",estudiante);
   }
-  
+   //Reg. CODE
+   
+   public List  getListarCertGen(Estudiantes estudiante) throws DataAccessException {
+    return getSqlMapClientTemplate().queryForList("getListarCertGen",estudiante);
+  }
+  public List  getListarNotasCertificados(Estudiantes estudiante) throws DataAccessException {
+    return getSqlMapClientTemplate().queryForList("getListarNotasCertificados",estudiante);
+  }
+  public int setRegistrarCerGen(Estudiantes estudiante) throws DataAccessException {
+    Integer i =  (Integer) getSqlMapClientTemplate().queryForObject("setRegistrarCerGen", estudiante);
+    return i.intValue();
+  }
+  public int getBuscarMaxCertSede(Estudiantes estudiante) throws DataAccessException {
+    Integer i =  (Integer) getSqlMapClientTemplate().queryForObject("getBuscarMaxCertSede", estudiante);
+    return i.intValue();
+  }
+  public int setRegistrarCerGenNotas(Estudiantes estudiante) throws DataAccessException {
+    Integer i =  (Integer) getSqlMapClientTemplate().queryForObject("setRegistrarCerGenNotas", estudiante);
+    return i.intValue();
+  }
+
+  public void setEliminarCertificadoNotas(Estudiantes estudiante) throws DataAccessException {
+    getSqlMapClientTemplate().queryForObject("setEliminarCertificadoNotas", estudiante);
+ }
+    
+ public int getbuscarnrotransacciones(Estudiantes estudiante) throws DataAccessException {
+    Integer i =  (Integer) getSqlMapClientTemplate().queryForObject("getbuscarnrotransacciones", estudiante);
+    return i.intValue();
+  }
+  public int getcert_buscar_nro_certificado_gestioncode(Estudiantes estudiante) throws DataAccessException {
+    Integer i =  (Integer) getSqlMapClientTemplate().queryForObject("getcert_buscar_nro_certificado_gestioncode", estudiante);
+    return i.intValue();
+  }
+ 
 //FIN - METODOS ADICIONADOS POR LA UAP
  
 }

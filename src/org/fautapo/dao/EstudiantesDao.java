@@ -217,6 +217,16 @@ public interface EstudiantesDao {
   List getListarCursoPsicoEst(Estudiantes estudiante) throws DataAccessException;
   List getListarCursoSemioEst(Estudiantes estudiante) throws DataAccessException;
   List getlistarMiembrosT(Estudiantes estudiante) throws DataAccessException;
-//FIN - METODOS ADICIONADOS POR LA UAP
+  
+  //Cambiar CODE
+  int setRegistrarCerGen(Estudiantes estudiante) throws DataAccessException;
+  int getBuscarMaxCertSede(Estudiantes estudiante) throws DataAccessException;
+  int setRegistrarCerGenNotas(Estudiantes estudiante) throws DataAccessException;
+  List getListarCertGen(Estudiantes estudiante) throws DataAccessException;
+  List getListarNotasCertificados(Estudiantes estudiante) throws DataAccessException;
+  void setEliminarCertificadoNotas(Estudiantes estudiante)throws DataAccessException; 
+  int getbuscarnrotransacciones(Estudiantes estudiante) throws DataAccessException;
+  int getcert_buscar_nro_certificado_gestioncode(Estudiantes estudiante) throws DataAccessException;
+ //FIN - METODOS ADICIONADOS POR LA UAP
 
 }

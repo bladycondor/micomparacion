@@ -99,7 +99,116 @@ private int id_tipo_materia;
   private String nombres;
   private String transaccion;  
   //Aumentado d
-public int  getIns_sede() { return ins_sede; }
+  
+  //Aumentado CODE
+  private int id_sede;
+  private String sede;
+  private int nro_certificado;
+  private int gestion_certificado;
+  private String nrocertificado_gestion; 
+  private String nro_transaccion;
+  private int id_notas_certificados;
+  //private String facultad;
+  private String carrera;
+  private String nivel;
+  private int nivel2;
+  private String Plan;
+  private String planes;
+  private String periodo_academico;
+  private int ru;
+  private int ci;
+  private String estudiante;
+  private String obs;
+  private int reimpresiones;
+  //Aumentado notas CODE
+	public int id_certificados_generados;
+    public String nro_certificado2;
+	//public String nro_certificado_generado;
+	//public String sigla;
+	//public String nivel;
+	public String asignatura;
+	public double numeral;
+	public String literal;
+	//public String tipo_evaluacion;
+	//public String observacion; 
+	//public String id_estado; 
+	//public int ult_usuario;
+  public int periodo;
+  public int gestion;
+  //Aumentado CODE
+  //Aumentado CODE
+  public int getid_sede() { return id_sede; }
+  public void setid_sede(int id_sede) { this.id_sede = id_sede; }
+ 
+  public int getid_notas_certificados() { return id_notas_certificados; }
+ 
+  public void setid_notas_certificados(int id_notas_certificados) { this.id_notas_certificados = id_notas_certificados; }
+  
+  /*public int nro_certificado_generado() { return nro_certificado_generado; }
+  public void setnro_certificado_generado(int nro_certificado_generado) { this.nro_certificado_generado = nro_certificado_generado; }*/
+
+
+  
+	public String getSede() { return sede; }
+	public void setsede(String sede) { this.sede = sede; }
+
+
+ public int getnro_certificado() { return nro_certificado; }
+  public void setnro_certificado(int nro_certificado) { this.nro_certificado = nro_certificado; }
+  public int getgestion_certificado() { return gestion_certificado; }
+  public void setgestion_certificado(int gestion_certificado) { this.gestion_certificado = gestion_certificado; }
+  public String getNrocertificado_gestion() { return nrocertificado_gestion; }
+  public void setNrocertificado_gestion(String nrocertificado_gestion) { this.nrocertificado_gestion = nrocertificado_gestion; }
+  public String getnro_transaccion() { return nro_transaccion; }
+  public void setnro_transaccion(String nro_transaccion) { this.nro_transaccion = nro_transaccion; }
+  //public String getfacultad() { return facultad; }
+  //public void setfacultad(String facultad) { this.facultad = facultad; }
+  public String getcarrera() { return carrera; }
+  public void setcarrera(String carrera) { this.carrera = carrera; }
+  public String getnivel() { return nivel; }
+  public void setnivel(String nivel) { this.nivel = nivel; }
+  public int getnivel2() { return nivel2; }
+  public void setnivel2(int nivel2) { this.nivel2 = nivel2; }
+  public String getplanes() { return Plan; }
+  public void setplanes(String Plan) { this.Plan = Plan; }
+  public String getPlanes2() { return planes; }
+  public void setPlanes2(String planes) { this.planes = planes; }
+  public String getperiodo_academico() { return periodo_academico; }
+  public void setperiodo_academico(String periodo_academico) { this.periodo_academico = periodo_academico; }
+  public int getru() { return ru; }
+  public void setRu(int ru) { this.ru = ru; }
+  public int getci() { return ci; }
+  public void setCi(int ci) { this.ci = ci; }
+  public String getestudiante() { return estudiante; }
+  public void setestudiante(String estudiante) { this.estudiante = estudiante; }
+  public String getobs() { return obs; }
+  public void setobs(String obs) { this.obs = obs; }
+  public int getreimpresiones() { return reimpresiones; }
+  public void setreimpresiones(int reimpresiones) { this.reimpresiones = reimpresiones; }
+  
+	public int getid_certificados_generados() { return id_certificados_generados; }
+	public void setid_certificados_generados(int id_certificados_generados) { this.id_certificados_generados = id_certificados_generados; }
+	
+	public String getNro_certificado2() { return nro_certificado2; }
+    public void setNro_certificado2(String nro_certificado2) { this.nro_certificado2 = nro_certificado2; }
+	
+	public String getasignatura() { return asignatura; }
+	public void setasignatura(String asignatura) { this.asignatura = asignatura; }
+	
+	public double getnumeral() { return numeral; }
+	public void setnumeral(double numeral) { this.numeral = numeral; }
+	
+	public String getliteral() { return literal; }
+	public void setliteral(String literal) { this.literal = literal; }
+	
+	public int getperiodo() { return periodo; }
+	public void setperiodo(int periodo) { this.periodo = periodo; }
+	
+	public int getgestion() { return gestion; }
+	public void setgestion(int gestion) { this.gestion = gestion; }
+  //Aumentado CODE
+  
+  public int  getIns_sede() { return ins_sede; }
   public void setIns_sede(int ins_sede) { this.ins_sede = ins_sede; }
   
   public String getTransaccion() {return transaccion;}

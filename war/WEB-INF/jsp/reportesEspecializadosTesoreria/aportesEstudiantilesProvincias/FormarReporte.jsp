@@ -147,7 +147,7 @@
               <c:set var="descuento" value="${descuento + lista.descuento}"/>
               <c:set var="pagado" value="${pagado + lista.pagado}"/>
           
-              <c:set var="subtotal" value="${subtotal + lista.total}"/>
+              <c:set var="subtotal" value="${subtotal + lista.pagado}"/>
               <c:set var="subdescuento" value="${subdescuento + lista.descuento}"/>
               <c:set var="subpagado" value="${subpagado + lista.pagado}"/>
           

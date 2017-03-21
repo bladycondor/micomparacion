@@ -12,6 +12,7 @@
 
   <resultMap id="programa" class="org.fautapo.domain.Programas">
     <result property="id_programa"          column="id_programa"/>
+	<result property="id_sede"              column="id_sede"/>
     <result property="id_facultad"          column="id_facultad"/>
     <result property="id_campus"            column="id_campus"/>
     <result property="id_area_conocimiento" column="id_area_conocimiento"/>

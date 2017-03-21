@@ -3206,7 +3206,35 @@
   </bean>
 
   <!--FIN - Imprimir Certificado de Notas-->
-
+<!--INICIO - Imprimir Certificado de Notas CODE-->
+  <bean name="/imprimirCertificadoNotasCode/entrada.fautapo" class="org.fautapo.web.reportesAcademicos.imprimirCertificadoNotasCode.Entrada">
+    <property name="mi" ref="mi"/>
+  </bean>
+  
+  <bean name="/imprimirCertificadoNotasCode/listarProgramasPlanes.fautapo" class="org.fautapo.web.reportesAcademicos.imprimirCertificadoNotasCode.ListarProgramasPlanes">
+    <property name="mi" ref="mi"/>
+  </bean>
+  
+  <bean name="/imprimirCertificadoNotasCode/listarCertificadoNotas.fautapo" class="org.fautapo.web.reportesAcademicos.imprimirCertificadoNotasCode.ListarCertificadoNotas">
+    <property name="mi" ref="mi"/>
+  </bean>
+  <bean name="/imprimirCertificadoNotasCode/registrarCertificadoNotas.fautapo" class="org.fautapo.web.reportesAcademicos.imprimirCertificadoNotasCode.RegistrarCertificadoNotas">
+    <property name="mi" ref="mi"/>
+  </bean>
+  <!--FIN - Imprimir Certificado de Notas-->
+  <!--INICIO - ReImprimir Certificado de Notas CODE-->
+  <bean name="/ReimprimirCertificadoNotasCode/entrada.fautapo" class="org.fautapo.web.administrarCertificados.reimprimirCertificados.Entrada">
+    <property name="mi" ref="mi"/>
+  </bean>
+  
+  <!---->
+  <bean name="/ReimprimirCertificadoNotasCode/listarConceptosImpresion.fautapo" class="org.fautapo.web.administrarCertificados.reimprimirCertificados.ListarConceptosImpresion">
+    <property name="mi" ref="mi"/>
+  </bean>
+ 
+ 
+ 
+  <!--FIN - ReImprimir Certificado de Notas CODE-->
 
   <!--INICIO - Imprimir Certificado de Notas por Nivel-->
   <bean name="/imprimirCertificadoNotasNivel/entrada.fautapo" class="org.fautapo.web.reportesAcademicos.imprimirCertificadoNotasNivel.Entrada">
@@ -4362,7 +4390,30 @@
   <bean name="/reportestesoreria/detalladoProFacultativoProvincias/formarReporte.fautapo" class="org.fautapo.web.reportesEspecializadosTesoreria.detalladoProFacultativoProvincias.FormarReporte">
     <property name="mi" ref="mi"/>
   </bean>
-    
+  
+     <!--INICIO - Eliminar CERTIFICADOS -->
+  <bean name="/administrarCertificados/eliminarCertificados/entrada.fautapo" class="org.fautapo.web.administrarCertificados.eliminarCertificados.Entrada">
+	<property name="mi" ref="mi"/>
+  </bean>
+
+   <bean name="/administrarCertificados/eliminarCertificados/confirmarBorrado.fautapo" class="org.fautapo.web.administrarCertificados.eliminarCertificados.ConfirmarBorrado">
+    <property name="mi" ref="mi"/>
+  </bean>
+  
+  <bean name="/administrarCertificados/eliminarCertificados/borrarCertificado.fautapo" class="org.fautapo.web.administrarCertificados.eliminarCertificados.BorrarCertificado">
+    <property name="mi" ref="mi"/>
+  </bean>
+  <!-- FIN - Eliminar CERTIFICADOS -->
+  
+     <!--INICIO - Reimprimir CERTIFICADOS -->
+  <bean name="/administrarCertificados/reimprimirCertificados/entrada.fautapo" class="org.fautapo.web.administrarCertificados.reimprimirCertificados.Entrada">
+    <property name="mi" ref="mi"/>
+  </bean>
+
+  <bean name="/administrarCertificados/reimprimirCertificados/listarConceptosImpresion.fautapo" class="org.fautapo.web.administrarCertificados.reimprimirCertificados.ListarConceptosImpresion">
+    <property name="mi" ref="mi"/>
+  </bean>
+  <!-- FIN - Reimprimir CERTIFICADOS -->
 		<!-- =============== ULTIMOS REPORTES UAB-CAJA  ============ -->
 	
 	 <bean name="/reportestesoreria/totalDetalladoMatriculasProvincias/listarCondiciones.fautapo" class="org.fautapo.web.reportesEspecializadosTesoreria.totalDetalladoMatriculasProvincias.ListarCondiciones">

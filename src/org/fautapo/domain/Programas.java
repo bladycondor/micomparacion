@@ -22,6 +22,7 @@ public class Programas extends Facultades {
   private int    id_tipo_graduacion;
   private int    id_tipo_admision;
   private int    id_periodo;
+  private int    id_sede;
   private String programa;
   private String resolucion_hcu;
   private Date   fec_inicio;
@@ -72,6 +73,9 @@ public class Programas extends Facultades {
 
   public int getId_programa() { return id_programa; }
   public void setId_programa(int id_programa) { this.id_programa = id_programa; }
+  
+  public int getId_sede() { return id_sede; }
+  public void setId_sede(int id_sede) { this.id_sede = id_sede; }
 
   public int getId_campus() { return id_campus; }
   public void setId_campus(int id_campus) { this.id_campus = id_campus; }

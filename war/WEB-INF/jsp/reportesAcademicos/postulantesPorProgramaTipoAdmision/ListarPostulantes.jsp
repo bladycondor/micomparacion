@@ -61,9 +61,10 @@
         <tr>
           <th>Nro</th>
           <th>R.P.</th>
-          <th>NOMBRES</th>
+		  <th>C.I.</th>  
           <th>PATERNO</th>
           <th>MATERNO</th>
+		  <th>NOMBRES</th>
           <th>FECHA</th>
           <th>ESTADO</th>
         </tr>
@@ -72,9 +73,10 @@
           <tr>
             <td><c:out value="${contador.count}"/></td>
             <td><c:out value="${lista.id_postulante}"/></td>
-            <td><c:out value="${lista.nombres}"/></td>
+			<td><c:out value="${lista.dip}"/></td>            
             <td><c:out value="${lista.paterno}"/></td>
             <td><c:out value="${lista.materno}"/></td>
+			<td><c:out value="${lista.nombres}"/></td>
             <td><fmt:formatDate value="${lista.fec_registro}" pattern="${formatoFecha}"/></td>
             <td><c:out value="${lista.estado}"/></td>
           </tr>

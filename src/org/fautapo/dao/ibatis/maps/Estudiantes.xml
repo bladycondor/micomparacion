@@ -1385,6 +1385,10 @@
     AS (nombres text, programa dtexto);
   </select> 
 <!--FIN - METODOS ADICIONADOS POR LA UAP -->
+
+ 
+  
+
 <!--INICIO - FECHA DE INGRESO A LA UAB -->
 
  <resultMap id="listarIngresoUAB" class="org.fautapo.domain.Estudiantes">  
@@ -1411,6 +1415,165 @@
   
 <!--FIN - FECHA DE INGRESO A LA UAB -->
 
+<!-- TABLAS NOTAS CODE-->
 
+  <resultMap id="registrarCerGen" class="org.fautapo.domain.Estudiantes">
+    <result property="id_sede"       	  			column="id_sede"/>
+	<result property="nro_certificado"    			column="nro_certificado"/>
+    <result property="gestion_certificado"          column="gestion_certificado"/>
+    <result property="nro_transaccion"            	column="nro_transaccion"/>
+    <result property="facultad"              		column="facultad"/>
+    <result property="carrera"       				column="carrera"/>
+    <result property="nivel"      					column="nivel"/>
+    <result property="plan"         				column="plan"/>
+	<result property="periodo_academico"			column="periodo_academico"/>
+    <result property="ru"        					column="ru"/>
+    <result property="ci"          					column="ci"/>
+    <result property="estudiante"            		column="estudiante"/>
+	<result property="reimpresiones"                column="reimpresiones"/> 
+	<result property="ult_usuario"                  column="ult_usuario"/>
+  </resultMap>
+  
+  <statement id="setRegistrarCerGen" resultClass="java.lang.Integer">
+    SELECT * FROM cert_registrar_certificado_generado(#id_sede#,#nro_certificado#,#gestion_certificado#,#nro_transaccion#,#facultad#,#carrera#,#nivel#,#plan#,#periodo_academico#,#ru#,#ci#,#estudiante#,#reimpresiones#,#ult_usuario#);
+  </statement>
+  
+  <!-- <resultMap id="maxCert" class="org.fautapo.domain.Estudiantes">
+	<result property="nro_certificado"    			column="nro_certificado"/>
+  </resultMap>-->
+  <statement id="getBuscarMaxCertSede" resultClass="java.lang.Integer">
+    SELECT * FROM cert_buscar_maximo_nro_certificado_sede(#id_sede#,#gestion_certificado#);
+  </statement>
+  
+	<resultMap id="registrarCerGenNotas" class="org.fautapo.domain.Estudiantes">
+		<result property="id_certificados_generados"	column="id_certificados_generados"/>
+		<result property="nro_certificado2"				column="nro_certificado2"/>
+     	<result property="sigla"          				column="sigla"/>
+ 		<result property="nivel2"      					column="nivel2"/>
+		<result property="asignatura"          			column="asignatura"/>
+		<result property="numeral"          			column="numeral"/>
+		<result property="literal"          			column="literal"/>
+		<result property="tipo_evaluacion"          	column="tipo_evaluacion"/>
+		<result property="id_estado"          			column="id_estado"/>
+		<result property="ult_usuario"                  column="ult_usuario"/>
+	</resultMap>
+  <statement id="setRegistrarCerGenNotas" resultClass="java.lang.Integer">
+   SELECT * FROM cert_registrar_notas_certificado_generado(#id_certificados_generados#,#nro_certificado2#,#sigla#,#nivel2#, #asignatura#, #numeral#, #literal#,#tipo_evaluacion#, #id_estado#, #ult_usuario#);
+  </statement>
+   
+<!--CODE-->
+ <resultMap id="listarCertificadosGen" class="org.fautapo.domain.Estudiantes">  
+    <result property="id_certificados_generados"       	  	column="id_certificados_generados"/>
+	<result property="id_sede"    						    column="id_sede"/>
+	<result property="nro_certificado"       	  			column="nro_certificado"/>
+	<result property="gestion_certificado"    				column="gestion_certificado"/>
+	<result property="nrocertificado_gestion"       	  	column="nrocertificado_gestion"/>
+	<result property="nro_transaccion"    					column="nro_transaccion"/>
+	<result property="facultad"       	  					column="facultad"/>
+	<result property="carrera"    							column="carrera"/>
+	<result property="nivel"       	  						column="nivel"/>
+	<result property="planes"    						    column="planes"/>
+	<result property="periodo_academico"       	  			column="periodo_academico"/>
+	<result property="ru"    								column="ru"/>
+	<result property="ci"       	  						column="ci"/>
+	<result property="estudiante"    						column="estudiante"/>
+    <result property="obs"    						column="obs"/>
+    <result property="reimpresiones"    					column="reimpresiones"/>
+  </resultMap>    
 
+  <select id="getListarCertGen" resultMap="listarCertificadosGen">
+  SELECT * FROM cert_listar_certificados_generados(#nrocertificado_gestion#,#id_sede#)
+  AS (
+    id_certificados_generados integer,
+    id_sede dentero,
+	nro_certificado dentero,
+    gestion_certificado dentero,
+    nrocertificado_gestion dtexto2,
+	nro_transaccion dtexto2,
+	facultad dtexto2,
+	carrera dtexto2,
+	nivel dtexto2,
+	planes dtexto2,
+	periodo_academico dtexto2 ,
+	ru dentero,
+	ci dentero,
+	estudiante dtexto2,
+	obs dtexto2,
+	reimpresiones dentero);
+
+ </select> 
+
+ 
+<!-- --> 
+<resultMap id="ListarNotasCertificados" class="org.fautapo.domain.Estudiantes">  
+ 	<result property="id_notas_certificados"    			column="id_notas_certificados"/>
+	<result property="id_certificados_generados"       	  	column="id_certificados_generados"/>
+    <result property="nro_certificado2"       	  			column="nro_certificado2"/>
+	<result property="sigla"    						    column="sigla"/>
+	<result property="nivel"       	  						column="nivel"/>
+	<result property="asignatura"    						column="asignatura"/>
+	<result property="numeral"       		  				column="numeral"/>
+	<result property="literal"    							column="literal"/>
+	<result property="tipo_evaluacion"       	  			column="tipo_evaluacion"/>
+	<result property="observacion"    						column="observacion"/>
+	<result property="id_estado"       	  					column="id_estado"/>
+	<result property="fec_registro"    						column="fec_registro"/>
+	<result property="fec_modificacion"       	  			column="fec_modificacion"/>
+	<result property="ult_usuario"    						column="ult_usuario"/>
+	
+  </resultMap>    
+
+  <select id="getListarNotasCertificados" resultMap="ListarNotasCertificados">
+  SELECT * FROM cert_listar_notas_certificados(#id_certificados_generados#)
+  AS (
+ 
+	id_notas_certificados integer,
+	id_certificados_generados dentero,
+	nro_certificado2 dtexto2,
+	sigla dtexto2,
+	nivel dtexto2,
+	asignatura dtexto2,
+	numeral float ,
+	literal dtexto2,
+	tipo_evaluacion dtexto2,
+	observacion dtexto2,
+	id_estado did_estado ,
+	fec_registro dfec_modificacion,
+	fec_modificacion dfec_modificacion,
+	ult_usuario did_usuario);
+	
+ 
+ </select>  
+  
+  <statement id="setEliminarCertificadoNotas">
+    SELECT cert_eliminar_certificado_generado(#id_certificados_generados#,#obs#,#ult_usuario#);
+  </statement>
+  
+  <!--  
+  <resultMap id="ListarTiposSedesCertificados" class="org.fautapo.domain.Estudiantes">
+    <result property="id_sede"       	  			column="id_sede"/>
+	<result property="sede"    						column="sede"/>
+  </resultMap>
+  <statement id="getListarTiposSedesCertificados" resultClass="ListarTiposSedesCertificados">
+   SELECT * FROM mi_listar_sedes_certificados()AS (id_sede integer, sede dtexto);
+  </statement>-->
+  <resultMap id="listarCertificadosGen" class="org.fautapo.domain.Estudiantes">  
+	<result property="nro_transaccion"    					column="nro_transaccion"/>
+  </resultMap>  
+  <statement id="getbuscarnrotransacciones" resultClass="java.lang.Integer">
+   SELECT * FROM buscar_nro_transaccionCODE(#nro_transaccion#);
+  </statement>
+  <!--***********
+  cert_buscar_nro_certificado_gestioncode
+  **************-->
+  
+  <resultMap id="cert_buscar_nro_certificado_gestioncode" class="org.fautapo.domain.Estudiantes">  
+	<result property="nrocertificado_gestion"    					column="nrocertificado_gestion"/>
+	<result property="id_sede"    									column="id_sede"/>
+  </resultMap>  
+  <statement id="getcert_buscar_nro_certificado_gestioncode" resultClass="java.lang.Integer">
+   SELECT * FROM cert_buscar_nro_certificado_gestioncode(#nrocertificado_gestion#,#id_sede#);
+  </statement>
+  
+  
 </sqlMap>

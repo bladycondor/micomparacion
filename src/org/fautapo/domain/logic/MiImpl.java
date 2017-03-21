@@ -224,6 +224,7 @@ public class MiImpl implements MiFacade {
   }
 
     //  INICIO JOJO  \\
+	
   public List getEjecutarListado2(Abm abm) {
     return this.abmDao.getEjecutarListado2(abm);
   }
@@ -243,7 +244,33 @@ public class MiImpl implements MiFacade {
   public int setInsertarDatos(Abm abm) {
     return this.abmDao.setInsertarDatos(abm);
   }
+  //CODE
+  public int setRegistrarCerGen(Estudiantes estudiante) {
+    return this.estudiantesDao.setRegistrarCerGen(estudiante);
+  }
+   public int getBuscarMaxCertSede(Estudiantes estudiante) {
+    return this.estudiantesDao.getBuscarMaxCertSede(estudiante);
+  }
+   public int getbuscarnrotransacciones(Estudiantes estudiante) {
+    return this.estudiantesDao.getbuscarnrotransacciones(estudiante);
+  }
+   public int getcert_buscar_nro_certificado_gestioncode(Estudiantes estudiante) {
+    return this.estudiantesDao.getcert_buscar_nro_certificado_gestioncode(estudiante);
+  }
+   public int setRegistrarCerGenNotas(Estudiantes estudiante) {
+    return this.estudiantesDao.setRegistrarCerGenNotas(estudiante);
+  }
+ 
+  public void setEliminarCertificadoNotas(Estudiantes estudiante) {
+    this.estudiantesDao.setEliminarCertificadoNotas(estudiante);}
 
+   public List getListarCertGen(Estudiantes estudiante) {
+    return this.estudiantesDao.getListarCertGen(estudiante);
+  }
+   public List getListarNotasCertificados(Estudiantes estudiante) {
+    return this.estudiantesDao.getListarNotasCertificados(estudiante);
+  }
+  
   public List getListarCombos(Abm abm) {
     return this.abmDao.getListarCombos(abm);
   }
@@ -265,6 +292,7 @@ public class MiImpl implements MiFacade {
   }
   
       //  INICIO huaica  \\
+	  
   public List getListarCamposTablaActividad(Abm abm) {
     return this.abmDao.getListarCamposTablaActividad(abm);
   }
@@ -279,6 +307,7 @@ public class MiImpl implements MiFacade {
       //  FIN huaica  \\
 
       // INICIO Combustible \\
+	  
   public Enlaces getEnlBuscarEnlace(Enlaces enlace) {
     return this.enlacesDao.getEnlBuscarEnlace(enlace);
   }
@@ -1442,7 +1471,8 @@ public class MiImpl implements MiFacade {
   public Personas getPrsBuscarPersona(Personas persona) { return this.personasDao.getPrsBuscarPersona(persona); }     
   //fin Personas
   //Estudiantes
-  public Estudiantes getEstBuscarEstudiante(Estudiantes estudiante) { return this.estudiantesDao.getEstBuscarEstudiante(estudiante); }          
+  public Estudiantes getEstBuscarEstudiante(Estudiantes estudiante) { 
+  return this.estudiantesDao.getEstBuscarEstudiante(estudiante); }          
   public Estudiantes getEstBuscarEstudiantePrograma(Estudiantes estudiante) { return this.estudiantesDao.getEstBuscarEstudiantePrograma(estudiante); }          
   public Estudiantes getEstBuscarEstudianteAccesos(Estudiantes estudiante) { return this.estudiantesDao.getEstBuscarEstudianteAccesos(estudiante); }          
   //fin Estudiantes
@@ -2647,3 +2677,6 @@ public List getRepCajasTransaccionesDiariasGlobalxcajeroProv(Perfiles perfil) {r
 
 //----------------FIN MICOIMATA------------------------------\\    
 }
+
+
+

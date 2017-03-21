@@ -66,8 +66,17 @@ public class Libretas extends Grupos {
   private boolean bandera;
   private double  nota_final;
   private double nota_final_ponderada;
+  private String sigla;
+  private int nivel_academico;
+  private String materia;
   /* JavaBeans Properties */
-
+  public String getSigla() { return this.sigla; }
+  public void setSigla(String sigla) { this.sigla = sigla; }
+  public int getNivel_academico() { return this.nivel_academico; }
+  public void setNivel_academico(int nivel_academico) { this.nivel_academico = nivel_academico; } 
+  public String getMateria() { return this.materia; }
+  public void setMateria(String materia) { this.materia = materia; }
+  
   public double getNota_final_ponderada() { return this.nota_final_ponderada; }
   public void setNota_final_ponderada(int nota_final_ponderada) { this.nota_final_ponderada = nota_final_ponderada; }  
 
