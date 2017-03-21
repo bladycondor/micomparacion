@@ -110,7 +110,6 @@ public class ListarCertificadoNotas implements Controller {
       for (int i=0; i<lNotas.size();i++) {
         Libretas datosLibreta = (Libretas) lNotas.get(i);
         Literales literal = new Literales();
-	datosLibreta.setLiteral(literal.convertNumber(datosLibreta.getNota()));
 	    datosLibreta.setLiteral(literal.convertNumber(datosLibreta.getNota()));
         lMateriasNotas.add(i, datosLibreta);
       }
